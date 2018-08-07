@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: harsh-arya-cronservice
+spec:
+  selector:
+   app: greetCron
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000

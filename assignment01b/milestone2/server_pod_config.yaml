@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name : harsh-arya-server
+spec:
+  containers:
+  - name: assgn1bserver
+    image: registry2.swarm.devfactory.com/harya/assgn1bserver:slim
+    volumeMounts:
+    - name: servervol
+      mountPath: /serverdata
+  volumes:
+  - name: servervol
+    persistentVolumeClaim:
+      claimName: pvc-servervol

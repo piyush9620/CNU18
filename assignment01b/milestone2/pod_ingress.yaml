@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: harsh-arya-ingress
+  annotations:
+    kubernetes.io/ingress.class: nonprod-internal
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: getrandom.harya.cnu2018.devfactory.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: harsh-arya-cronservice
+          servicePort: 80

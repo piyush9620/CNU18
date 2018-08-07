@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name : harsh-arya-cronget
+  labels:
+    app: greetCron
+spec:
+  containers:
+  - name: harsharyacronget
+    image:  registry2.swarm.devfactory.com/harya/kubeget:slim

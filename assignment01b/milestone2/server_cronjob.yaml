@@ -1,0 +1,19 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: harsh-arya-cron
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: harsh-arya-cronjob
+            image:  registry2.swarm.devfactory.com/harya/kubecron:slim
+            env:
+              - name: SERVER_HOST
+                value: 10.111.149.61
+              - name: SERVER_PORT
+                value : '5000'
+          restartPolicy: OnFailure
