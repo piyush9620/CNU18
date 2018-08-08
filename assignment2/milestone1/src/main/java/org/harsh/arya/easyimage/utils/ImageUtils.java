@@ -12,34 +12,38 @@ import java.io.IOException;
 
 public class ImageUtils {
 
-    private static Pair<Integer,Integer> getSizeParams(int oHeight,int oWidth,int nHeight,int nWidth){
-        if(nHeight == 0){
+    private  Pair<Integer,Integer> getSizeParams(int oHeight,int oWidth,Integer nHeight,Integer nWidth){
+        if(nHeight == null){
             nHeight = (oHeight*nWidth)/oWidth;
-        }else if(nWidth ==0){
+        }else if(nWidth == null){
             nWidth = (nHeight*oWidth)/oHeight;
         }
+        System.out.println(nHeight+"x"+nWidth);
         return new ImmutablePair<>(nHeight,nWidth);
     }
 
-    public static void resizeImage(String filepath,int height,int width){
+    public  void resizeImage(String filepath,Integer height,Integer width){
         String filename = getLast(filepath,"/");
         String fileext = getLast(filename,"\\.");
         ImagePlus imp = IJ.openImage(filepath);
         ImageProcessor ip = imp.getProcessor();
         Pair<Integer,Integer> newParams = getSizeParams(ip.getHeight(),ip.getWidth(),height,width);
         ip = ip.resize(newParams.getValue(), newParams.getKey());
-        BufferedImage resizedImage = ip.getBufferedImage();
+        writeFile(ip.getBufferedImage(),fileext,filename);
+    }
+
+    private  String getLast(String oStr,String divider){
+        String [] parts = oStr.split(divider);
+        String name = parts[parts.length -1 ];
+        return name;
+    }
+
+    private void writeFile(BufferedImage resizedImage,String fileext,String filename){
         try{
             ImageIO.write(resizedImage, fileext, new File("/var/data/output/"+filename));
         }catch(IOException e){
             System.out.println(e);
         }
-    }
-
-    private static String getLast(String oStr,String divider){
-        String [] fileparts = oStr.split(divider);
-        String name = fileparts[fileparts.length -1 ];
-        return name;
     }
 
 
