@@ -33,7 +33,7 @@ public class ScaleOperation extends Operation {
         else{
             return ip;
         }
-        
+
     }
 
     public  Pair<Float,Float> getSizeParams(Float nHeight,Float nWidth){

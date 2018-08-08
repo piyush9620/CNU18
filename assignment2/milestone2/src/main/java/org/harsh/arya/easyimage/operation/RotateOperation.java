@@ -23,6 +23,7 @@ public class RotateOperation extends Operation{
     private ImageProcessor rotateImage(String filePath, Integer degree){
         ImagePlus imp = IJ.openImage(filePath);
         ImageProcessor ip = imp.getProcessor();
+        System.out.println(ip.getHeight()+"x"+ip.getWidth());
         ip.rotate(degree);
         return ip;
     }
