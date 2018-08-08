@@ -33,6 +33,7 @@ class JobTask implements Runnable {
         String outPath = "/var/data/output/";
         HashSet<String> operationSet = new HashSet<>();
         for(Operation operation : operations){
+            System.out.println(operation.toString());
             if(isPresent(operationSet,operation.toString())){
                 continue;
             }
