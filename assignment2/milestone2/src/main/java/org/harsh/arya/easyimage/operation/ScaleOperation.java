@@ -27,8 +27,8 @@ public class ScaleOperation extends Operation {
         ImageProcessor ip = imp.getProcessor();
         if(height !=null || width != null){
             Pair<Float,Float> newParams = getSizeParams(height,width);
-            int targetHeight = (int)((float)imp.getHeight() * height.floatValue());
-            int targetWidth = (int)((float)imp.getWidth() * width.floatValue());
+            int targetHeight = (int)((float)ip.getHeight() * newParams.getKey().floatValue());
+            int targetWidth = (int)((float)ip.getWidth() * newParams.getValue().floatValue());
             ip = ip.resize(targetWidth, targetHeight);
             return ip;
         }
