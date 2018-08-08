@@ -28,7 +28,4 @@ public abstract class Operation {
     @Getter @Setter protected String filePath;
     public abstract void apply(ImageUtils imageUtils,String outPath);
 
-    public void setFilePath(String filePath){
-        this.filePath = filePath;
-    }
 }

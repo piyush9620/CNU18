@@ -16,8 +16,5 @@ public class Job {
         return operation;
     }
 
-    public String getImagePath(){
-        return  imagePath;
-    }
 }
 
