@@ -22,11 +22,8 @@ public class ImageUtils {
     }
 
     public static void resizeImage(String filepath,int height,int width){
-        System.out.println(filepath);
         String filename = getLast(filepath,"/");
-        System.out.println(filename);
         String fileext = getLast(filename,"\\.");
-        System.out.println(fileext);
         ImagePlus imp = IJ.openImage(filepath);
         ImageProcessor ip = imp.getProcessor();
         Pair<Integer,Integer> newParams = getSizeParams(ip.getHeight(),ip.getWidth(),height,width);
@@ -35,7 +32,7 @@ public class ImageUtils {
         try{
             ImageIO.write(resizedImage, fileext, new File("/var/data/output/"+filename));
         }catch(IOException e){
-
+            System.out.println(e);
         }
     }
 

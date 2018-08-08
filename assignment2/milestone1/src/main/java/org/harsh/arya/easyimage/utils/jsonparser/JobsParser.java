@@ -22,13 +22,13 @@ public class JobsParser {
             imageJob = mapper.readValue(new File(filepath),Job[].class);
         }
         catch (JsonParseException e){
-
+            System.out.println(e);
         }
         catch(JsonMappingException e){
-
+            System.out.println(e);
         }
         catch(IOException e){
-
+            System.out.println(e);
         }
          return imageJob;
     }
