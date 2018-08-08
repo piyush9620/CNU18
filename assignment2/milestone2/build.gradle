@@ -1,0 +1,43 @@
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'application'
+    id 'net.ltgt.apt' version '0.10'
+}
+
+group 'org.harsh.arya'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+    apt "org.projectlombok:lombok:1.18.2"
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.6'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
+    compile files(fileTree(dir: 'lib', includes: ['*.jar']))
+    compile group: 'net.imagej', name: 'ij', version: '1.49k'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+}
+
+mainClassName = 'org.harsh.arya.easyimage.EasyImage'
+
+jar {
+    baseName = 'harya-easyimage'
+    version =  '0.1.0'
+    manifest {
+        attributes(
+//                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': mainClassName
+        )
+    }
+    from configurations.runtime.collect { zipTree(it) }
+}
