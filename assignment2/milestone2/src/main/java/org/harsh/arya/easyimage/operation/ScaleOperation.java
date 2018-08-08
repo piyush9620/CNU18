@@ -25,9 +25,15 @@ public class ScaleOperation extends Operation {
     private ImageProcessor scaleImage(String filePath,Float height,Float width){
         ImagePlus imp = IJ.openImage(filePath);
         ImageProcessor ip = imp.getProcessor();
-        Pair<Float,Float> newParams = getSizeParams(height,width);
-        ip.scale(newParams.getKey(), newParams.getValue());
-        return ip;
+        if(height !=null || width != null){
+            Pair<Float,Float> newParams = getSizeParams(height,width);
+            ip.scale(newParams.getKey(), newParams.getValue());
+            return ip;
+        }
+        else{
+            return ip;
+        }
+        
     }
 
     public  Pair<Float,Float> getSizeParams(Float nHeight,Float nWidth){
