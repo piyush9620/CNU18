@@ -24,7 +24,9 @@ public class RotateOperation extends Operation{
         ImagePlus imp = IJ.openImage(filePath);
         ImageProcessor ip = imp.getProcessor();
         System.out.println(ip.getHeight()+"x"+ip.getWidth());
-        ip.rotate(degree);
+        if(degree!=null){
+            ip.rotate(degree);
+        }
         return ip;
     }
 

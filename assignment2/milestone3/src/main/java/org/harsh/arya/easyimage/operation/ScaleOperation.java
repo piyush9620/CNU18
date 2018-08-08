@@ -25,8 +25,11 @@ public class ScaleOperation extends Operation {
     private ImageProcessor scaleImage(String filePath,Float height,Float width){
         ImagePlus imp = IJ.openImage(filePath);
         ImageProcessor ip = imp.getProcessor();
-        if(height !=null || width != null){
+        if((height !=null || width != null)){
             Pair<Float,Float> newParams = getSizeParams(height,width);
+            if(newParams.getKey() == 0){
+                return ip;
+            }
             int targetHeight = (int)((float)ip.getHeight() * newParams.getKey().floatValue());
             int targetWidth = (int)((float)ip.getWidth() * newParams.getValue().floatValue());
             ip = ip.resize(targetWidth, targetHeight);
