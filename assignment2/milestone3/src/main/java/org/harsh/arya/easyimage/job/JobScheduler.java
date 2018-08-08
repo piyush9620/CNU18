@@ -3,6 +3,7 @@ package org.harsh.arya.easyimage.job;
 import org.harsh.arya.easyimage.operation.Operation;
 import org.harsh.arya.easyimage.utils.ImageUtils;
 
+import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,12 +16,26 @@ class JobTask implements Runnable {
         this.imgUtils = imgUtils;
     }
 
+    private boolean isPresent(HashSet<String> hSet,String key){
+        if(hSet.contains(key)){
+            return true;
+        }else{
+            hSet.add(key);
+            return false;
+        }
+
+    }
+
     public void run() { // Start of step 4
         String filePath = job.getImagePath();
         String filename = imgUtils.getLast(filePath,"/");
         Operation[] operations = job.getOperations();
         String outPath = "/var/data/output/";
+        HashSet<String> operationSet = new HashSet<>();
         for(Operation operation : operations){
+            if(isPresent(operationSet,operation.toString())){
+                continue;
+            }
             System.out.println(filePath);
             operation.setFilePath(filePath);
             operation.apply(imgUtils,outPath);
