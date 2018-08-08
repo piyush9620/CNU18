@@ -30,4 +30,10 @@ public class RotateOperation extends Operation{
         return ip;
     }
 
+    public void setDegree(Integer degree) {
+        if(degree == null){
+            return ;
+        }
+        this.degree = (degree%360 +360)%360;
+    }
 }

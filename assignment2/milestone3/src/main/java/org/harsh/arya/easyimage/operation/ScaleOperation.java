@@ -51,4 +51,17 @@ public class ScaleOperation extends Operation {
         return new ImmutablePair<>(nHeight,nWidth);
     }
 
+
+
+    public ScaleOperation(@JsonProperty("width") Float width, @JsonProperty("height") Float height) {
+        this.width = width;
+        this.height = height;
+
+        if (this.width == null && this.height == null)
+            return;
+        if (this.width == null)
+            this.width = this.height;
+        if (this.height == null)
+            this.height = this.width;
+    }
 }
