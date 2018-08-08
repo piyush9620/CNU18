@@ -23,10 +23,12 @@ public class ImageUtils {
 
     public static void resizeImage(String filepath,int height,int width){
         System.out.println(filepath);
+        String filename = getLast(filepath,"/");
+        System.out.println(filename);
+        String fileext = getLast(filename,"\\.");
+        System.out.println(fileext);
         ImagePlus imp = IJ.openImage(filepath);
         ImageProcessor ip = imp.getProcessor();
-        String filename = getLast(filepath,"/");
-        String fileext = getLast(filename,".");
         Pair<Integer,Integer> newParams = getSizeParams(ip.getHeight(),ip.getWidth(),height,width);
         ip = ip.resize(newParams.getValue(), newParams.getKey());
         BufferedImage resizedImage = ip.getBufferedImage();
