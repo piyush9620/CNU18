@@ -7,7 +7,7 @@ public class EasyImage {
 
     public static void main (String[] args){
         JobHandler jobParser = new JobHandler();
-        Job[] jobs = jobParser.retrieveJob("jobs.json");
+        Job[] jobs = jobParser.retrieveJob("/var/data/input/jobs.json");
         System.out.println(jobs);
         jobParser.scheduleJobs(jobs);
     }

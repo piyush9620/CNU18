@@ -19,7 +19,7 @@ class JobTask implements Runnable {
         String filePath = job.getImagePath();
         String filename = imgUtils.getLast(filePath,"/");
         Operation[] operations = job.getOperations();
-        String outPath = "content/output/";
+        String outPath = "/var/data/output/";
         for(Operation operation : operations){
             System.out.println(filePath);
             operation.setFilePath(filePath);
