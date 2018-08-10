@@ -27,7 +27,9 @@ public class RestaurantController {
     private static final Logger logger = LoggerFactory.getLogger(RestaurantController.class);
 
     private Boolean checkId(Integer id){
-        return restaurantRepository.getById(id) != null;
+
+        Restaurant restaurant = restaurantRepository.getById(id) ;
+        return restaurant !=null && !restaurant.getIsDeleted();
     }
 
     private boolean checkNull(Restaurant restaurant){
@@ -44,8 +46,10 @@ public class RestaurantController {
        if(checkNull(restaurant)){
            SuccessResponse response = new SuccessResponse();
            response.setData(restaurant);
+           logger.debug("succesfully fetched restaurant");
            return new ResponseEntity<Response>(response,HttpStatus.OK);
        }else{
+           logger.info("restaurant not found");
            ErrorResponse response = new ErrorResponse();
            response.setReason("ID not found");
            return new ResponseEntity<Response>(response,HttpStatus.NOT_FOUND);
@@ -56,11 +60,13 @@ public class RestaurantController {
     @PostMapping(value="")
     public ResponseEntity<Response> addRestaurant(@RequestBody Restaurant restaurant){
         if(!checkNull(restaurant) || !Validators.validateRestaurant(restaurant)){
+            logger.info("restaurant not found");
             ErrorResponse response = new ErrorResponse();
             response.setReason("ID not found");
             return new ResponseEntity<Response>(response,HttpStatus.BAD_REQUEST);
         }
         else{
+            logger.info("restaurant created");
             restaurantRepository.save(restaurant);
             PostResponse response = new PostResponse();
             response.setId(restaurant.getId());
@@ -73,11 +79,13 @@ public class RestaurantController {
     @PutMapping(value="/{restaurantId}")
     public ResponseEntity<Response> updateRestaurant(@RequestBody Restaurant restaurant,@PathVariable @NotNull Integer restaurantId){
         if(!checkNull(restaurant) && !Validators.validateRestaurant(restaurant)){
+           logger.info("restaurant not updated");
             ErrorResponse response = new ErrorResponse();
             response.setReason("Restaurant  not validated");
             return new ResponseEntity<Response>(response,HttpStatus.BAD_REQUEST);
         }
         if(checkId(restaurantId)){
+                logger.info("restaurant update");
                 restaurant.setId(restaurantId);
                 restaurantRepository.save(restaurant);
                 SuccessResponse response = new SuccessResponse();
@@ -85,6 +93,7 @@ public class RestaurantController {
                 return new ResponseEntity<Response>(response, HttpStatus.OK);
             }
         else{
+            logger.info("restaurant id not found");
             ErrorResponse response = new ErrorResponse();
             response.setReason("Restaurant id not found");
             return new ResponseEntity<Response>(response,HttpStatus.BAD_REQUEST);
@@ -97,10 +106,12 @@ public class RestaurantController {
     public ResponseEntity<Response> deleteRestaurant(@PathVariable @NotNull Integer restaurantId){
         Restaurant restaurant = restaurantRepository.getById(restaurantId);
         if(checkNull(restaurant)){
+            logger.info("deleted");
             restaurant.setIsDeleted(true);
             SuccessResponse response = new SuccessResponse();
             return new ResponseEntity<Response>(response, HttpStatus.OK);
         }else{
+            logger.info("restaurant id not found");
             ErrorResponse response = new ErrorResponse();
             response.setReason("Restaurant id not found");
             return new ResponseEntity<Response>(response,HttpStatus.NOT_FOUND);
