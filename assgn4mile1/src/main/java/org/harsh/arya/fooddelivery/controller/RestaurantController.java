@@ -68,8 +68,8 @@ public class RestaurantController {
         else{
             logger.info("restaurant created");
             restaurantRepository.save(restaurant);
-            PostResponse response = new PostResponse();
-            response.setId(restaurant.getId());
+            SuccessResponse response = new SuccessResponse();
+            response.setData(restaurant);
             return new ResponseEntity<Response>(response, HttpStatus.CREATED);
         }
 
