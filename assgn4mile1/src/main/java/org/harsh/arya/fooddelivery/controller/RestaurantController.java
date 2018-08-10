@@ -78,7 +78,7 @@ public class RestaurantController {
 
     @PutMapping(value="/{restaurantId}")
     public ResponseEntity<Response> updateRestaurant(@RequestBody Restaurant restaurant,@PathVariable @NotNull Integer restaurantId){
-        if(!checkNull(restaurant) && !Validators.validateRestaurant(restaurant)){
+        if(!checkNull(restaurant) || !Validators.validateRestaurant(restaurant)){
            logger.info("restaurant not updated");
             ErrorResponse response = new ErrorResponse();
             response.setReason("Restaurant  not validated");
