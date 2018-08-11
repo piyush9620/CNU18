@@ -78,13 +78,14 @@ public class RestaurantController {
 
     @PutMapping(value="/{restaurantId}")
     public ResponseEntity<Response> updateRestaurant(@RequestBody Restaurant restaurant,@PathVariable @NotNull Integer restaurantId){
-        if(!checkNull(restaurant) || !Validators.validateRestaurant(restaurant)){
+        if(!checkNull(restaurant)){
            logger.info("restaurant not updated");
             ErrorResponse response = new ErrorResponse();
             response.setReason("Restaurant  not validated");
             return new ResponseEntity<Response>(response,HttpStatus.BAD_REQUEST);
         }
-        if(checkId(restaurantId)){
+        if(Validators.validateRestaurant(restaurant)){
+
                 logger.info("restaurant update");
                 restaurant.setId(restaurantId);
                 restaurantRepository.save(restaurant);

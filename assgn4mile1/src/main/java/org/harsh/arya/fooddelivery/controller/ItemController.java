@@ -57,7 +57,7 @@ public class ItemController {
     @PostMapping(value="/{restaurantId}/items")
     public ResponseEntity<Response> createItem(@PathVariable @NotNull Integer restaurantId,@RequestBody Item item){
         Restaurant restaurant = restaurantRepository.getById(restaurantId);
-        if(restaurant !=null && !restaurant.getIsDeleted()){
+        if(restaurant !=null && !restaurant.getIsDeleted() && Validators.validateItem(item)){
             item.setRestaurant(restaurant);
             itemRepository.save(item);
             SuccessResponse response = new SuccessResponse();
@@ -82,7 +82,7 @@ public class ItemController {
         }
         if(restaurant !=null){
             Item itemDb = itemRepository.getById(itemId);
-            if (itemDb.getRestaurant().getId() != restaurantId){
+            if (itemDb.getRestaurant().getId() != restaurantId || Validators.validateItem(item)){
                 ErrorResponse response = new ErrorResponse();
                 response.setReason("restaurant key not has found");
                 return new ResponseEntity<Response>(response,HttpStatus.BAD_REQUEST);
