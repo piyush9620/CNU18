@@ -109,6 +109,7 @@ public class RestaurantController {
         if(checkNull(restaurant)){
             logger.info("deleted");
             restaurant.setIsDeleted(true);
+            restaurantRepository.save(restaurant);
             SuccessResponse response = new SuccessResponse();
             return new ResponseEntity<Response>(response, HttpStatus.OK);
         }else{

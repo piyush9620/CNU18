@@ -109,6 +109,7 @@ public class ItemController {
         Item item = itemRepository.getById(itemId);
         if(!checkNull(item)){
             item.setIsDeleted(true);
+            itemRepository.save(item);
             SuccessResponse response = new SuccessResponse();
             return new ResponseEntity<Response>(response, HttpStatus.OK);
         }else{
