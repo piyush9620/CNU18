@@ -44,7 +44,7 @@ public class ItemController {
     public ResponseEntity<Response> getItem(@PathVariable @NotNull Integer restaurantId, @PathVariable @NotNull Integer itemId) {
         Item item = itemRepository.getById(itemId);
 
-        if(checkNull(item)){
+        if(!checkNull(item)){
             SuccessResponse response = new SuccessResponse();
             response.setData(item);
             return new ResponseEntity<Response>(response,HttpStatus.OK);
