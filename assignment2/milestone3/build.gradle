@@ -26,6 +26,8 @@ dependencies {
     compile files(fileTree(dir: 'lib', includes: ['*.jar']))
     compile group: 'net.imagej', name: 'ij', version: '1.49k'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 }
 
 mainClassName = 'org.harsh.arya.easyimage.EasyImage'

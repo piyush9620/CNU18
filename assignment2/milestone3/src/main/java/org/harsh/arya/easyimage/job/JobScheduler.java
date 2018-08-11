@@ -1,6 +1,8 @@
 package org.harsh.arya.easyimage.job;
 
+import org.apache.commons.io.FilenameUtils;
 import org.harsh.arya.easyimage.operation.Operation;
+import org.harsh.arya.easyimage.utils.Constants;
 import org.harsh.arya.easyimage.utils.ImageUtils;
 
 import java.util.HashSet;
@@ -26,24 +28,23 @@ class JobTask implements Runnable {
 
     }
 
-    public void run() { // Start of step 4
+    public void run() {
         String filePath = job.getImagePath();
-        String filename = imgUtils.getLast(filePath,"/");
+        String filename = FilenameUtils.getName(filePath);
         Operation[] operations = job.getOperations();
-        String outPath = "/var/data/output/";
+        String outPath = Constants.outPath;
         HashSet<String> operationSet = new HashSet<>();
         for(Operation operation : operations){
             System.out.println(operation.toString());
             if(isPresent(operationSet,operation.toString())){
                 continue;
             }
-            System.out.println(filePath);
             operation.setFilePath(filePath);
             operation.apply(imgUtils,outPath);
             filePath = outPath+"/"+filename;
         }
 
-    } /// End of step 4
+    }
 }
 
 public class JobScheduler {
@@ -56,16 +57,11 @@ public class JobScheduler {
     public  void performJobs(Job[] jobs){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         for (Job job : jobs) {
-            // Step No 2
             Runnable worker = new JobTask(job,imgUtils);
-            // Step No 3
             executor.execute(worker);
         }
         executor.shutdown();
-
-        // Waiting for all thread to finish
         while (!executor.isTerminated()) ;
-        System.out.println("All threads finished");
     }
 
 }

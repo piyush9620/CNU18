@@ -5,10 +5,13 @@ import ij.IJ;
 import ij.ImagePlus;
 import ij.process.ImageProcessor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.harsh.arya.easyimage.utils.ImageUtils;
 
+@Slf4j
 @ToString
 public class ScaleOperation extends Operation {
 
@@ -16,8 +19,8 @@ public class ScaleOperation extends Operation {
     @JsonProperty("width") public Float width;
 
     public void apply(ImageUtils imageUtils,String outPath){
-        String filename = imageUtils.getLast(filePath,"/");
-        String fileext = imageUtils.getLast(filename,"\\.");
+        String filename = FilenameUtils.getName(filePath);
+        String fileext = FilenameUtils.getExtension(filename);
         ImageProcessor ip = scaleImage(filePath,height,width);
         imageUtils.writeFile(ip.getBufferedImage(),fileext,filename,outPath);
     }
@@ -47,7 +50,7 @@ public class ScaleOperation extends Operation {
         }else if(nWidth == null){
             nWidth = nHeight;
         }
-        System.out.println(nHeight+"x"+nWidth);
+        log.info(nHeight+"x"+nWidth);
         return new ImmutablePair<>(nHeight,nWidth);
     }
 

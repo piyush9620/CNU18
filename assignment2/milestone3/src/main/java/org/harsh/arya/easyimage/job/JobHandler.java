@@ -18,27 +18,12 @@ public class JobHandler {
         jobScheduler = new JobScheduler();
     }
 
-    public Job[] retrieveJob(String filepath){
-        Job[] imageJob=null;
-        try{
-            imageJob = mapper.readValue(new File(filepath),Job[].class);
-        }
-        catch (JsonParseException e){
-            System.out.println(e);
-        }
-        catch(JsonMappingException e){
-            System.out.println(e);
-        }
-        catch(IOException e){
-            System.out.println(e);
-        }
-         return imageJob;
+    public Job[] retrieveJob(String filepath) throws JsonParseException,JsonMappingException,IOException{
+        return mapper.readValue(new File(filepath),Job[].class);
     }
 
     public void scheduleJobs(Job[] jobs){
-
-            jobScheduler.performJobs(jobs);
-
+        jobScheduler.performJobs(jobs);
     }
 
 }
