@@ -22,4 +22,8 @@ public class Item {
     @JsonIgnore
     private Boolean isDeleted = false;
 
+    public String toString(){
+        return "Item("+id+","+name+","+price+","+isDeleted+")";
+    }
+
 }

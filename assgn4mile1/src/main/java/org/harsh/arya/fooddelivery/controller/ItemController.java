@@ -35,17 +35,18 @@ public class ItemController {
 
     private boolean checkNull(Item item){
         if(item == null || item.getIsDeleted()){
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     @GetMapping(value = "/{restaurantId}/items/{itemId}")
     public ResponseEntity<Response> getItem(@PathVariable @NotNull Integer restaurantId, @PathVariable @NotNull Integer itemId) {
         Item item = itemRepository.getById(itemId);
+
         if(checkNull(item)){
-            PostResponse response = new PostResponse();
-            response.setId(item.getId());
+            SuccessResponse response = new SuccessResponse();
+            response.setData(item);
             return new ResponseEntity<Response>(response,HttpStatus.OK);
         }else{
             ErrorResponse response = new ErrorResponse();
@@ -75,6 +76,7 @@ public class ItemController {
     @PutMapping(value="/{restaurantId}/items/{itemId}")
     public ResponseEntity<Response> updateItem(@PathVariable @NotNull Integer restaurantId,@PathVariable @NotNull Integer itemId,@RequestBody Item item){
         Restaurant restaurant = restaurantRepository.getById(restaurantId);
+        log.debug(item.toString());
         if(checkNull(item)){
             ErrorResponse response = new ErrorResponse();
             response.setReason("item id not found");
@@ -82,13 +84,15 @@ public class ItemController {
         }
         if(restaurant !=null){
             Item itemDb = itemRepository.getById(itemId);
-            if (itemDb.getRestaurant().getId() != restaurantId || Validators.validateItem(item)){
+
+            if (itemDb==null || itemDb.getRestaurant().getId() != restaurantId || !Validators.validateItem(item)){
                 ErrorResponse response = new ErrorResponse();
                 response.setReason("restaurant key not has found");
                 return new ResponseEntity<Response>(response,HttpStatus.BAD_REQUEST);
             }
             log.debug("restaurant id verified");
             item.setId(itemId);
+            item.setRestaurant(restaurant);
             itemRepository.save(item);
             SuccessResponse response = new SuccessResponse();
             response.setData(item);
@@ -103,7 +107,7 @@ public class ItemController {
     @DeleteMapping(value = "/{restaurantId}/items/{itemId}")
     public ResponseEntity<Response> deleteItem(@PathVariable @NotNull Integer restaurantId,@PathVariable @NotNull Integer itemId){
         Item item = itemRepository.getById(itemId);
-        if(checkNull(item)){
+        if(!checkNull(item)){
             item.setIsDeleted(true);
             SuccessResponse response = new SuccessResponse();
             return new ResponseEntity<Response>(response, HttpStatus.OK);

@@ -47,6 +47,7 @@ public class Validators {
     public static boolean validateItem(Item item){
         Float price = item.getPrice();
         if(checkNullItem(item)){
+            log.debug("null item");
             return false;
         }
         return checkRange(price,0,Integer.MAX_VALUE);
