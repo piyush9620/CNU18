@@ -7,7 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "restaurant_item")
 public class Item {
