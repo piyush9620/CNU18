@@ -6,7 +6,7 @@ import org.harsh.arya.fooddelivery.models.ItemRepository;
 import org.harsh.arya.fooddelivery.models.Restaurant;
 import org.harsh.arya.fooddelivery.models.RestaurantRepository;
 import org.harsh.arya.fooddelivery.response.ErrorResponse;
-import org.harsh.arya.fooddelivery.utils.Response;
+import org.harsh.arya.fooddelivery.response.Response;
 import org.harsh.arya.fooddelivery.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

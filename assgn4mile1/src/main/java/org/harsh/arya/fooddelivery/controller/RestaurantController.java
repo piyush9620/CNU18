@@ -4,7 +4,7 @@ package org.harsh.arya.fooddelivery.controller;
 import org.harsh.arya.fooddelivery.models.Restaurant;
 import org.harsh.arya.fooddelivery.models.RestaurantRepository;
 import org.harsh.arya.fooddelivery.response.ErrorResponse;
-import org.harsh.arya.fooddelivery.utils.Response;
+import org.harsh.arya.fooddelivery.response.Response;
 import org.harsh.arya.fooddelivery.response.SuccessResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
