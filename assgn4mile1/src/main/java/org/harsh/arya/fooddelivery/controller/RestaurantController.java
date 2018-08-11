@@ -1,13 +1,11 @@
 package org.harsh.arya.fooddelivery.controller;
 
 
-import org.harsh.arya.fooddelivery.models.Item;
 import org.harsh.arya.fooddelivery.models.Restaurant;
 import org.harsh.arya.fooddelivery.models.RestaurantRepository;
-import org.harsh.arya.fooddelivery.utils.ErrorResponse;
-import org.harsh.arya.fooddelivery.utils.PostResponse;
+import org.harsh.arya.fooddelivery.response.ErrorResponse;
 import org.harsh.arya.fooddelivery.utils.Response;
-import org.harsh.arya.fooddelivery.utils.SuccessResponse;
+import org.harsh.arya.fooddelivery.response.SuccessResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +57,7 @@ public class RestaurantController {
 
     @PostMapping(value="")
     public ResponseEntity<Response> addRestaurant(@RequestBody Restaurant restaurant){
-        if(!checkNull(restaurant) || !Validators.validateRestaurant(restaurant)){
+        if(!checkNull(restaurant) || !restaurant.validate()){
             logger.info("restaurant not found");
             ErrorResponse response = new ErrorResponse();
             response.setReason("ID not found");
@@ -84,7 +82,7 @@ public class RestaurantController {
             response.setReason("Restaurant  not validated");
             return new ResponseEntity<Response>(response,HttpStatus.BAD_REQUEST);
         }
-        if(Validators.validateRestaurant(restaurant)){
+        if(restaurant.validate()){
 
                 logger.info("restaurant update");
                 restaurant.setId(restaurantId);

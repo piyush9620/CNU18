@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Set;
+
+import static org.harsh.arya.fooddelivery.utils.Validators.checkRange;
 
 @Data
 @Entity // This tells Hibernate to make a table out of this class
@@ -31,5 +32,20 @@ public class Restaurant {
 
     @JsonIgnore
     private Boolean isDeleted = false;
+
+    public  boolean validate(){
+        if(checkNullrestaurant()){
+            return false;
+        }
+        return checkRange(rating,0,100) &&
+                checkRange(latitude,-90,90) &&
+                checkRange(longitude,-180,180);
+
+    }
+
+    private  boolean checkNullrestaurant(){
+        return  this.getCity() == null ||this.getCuisines() == null || this.getLatitude() ==null
+                || this.getLongitude() ==null || this.getRating() ==null ;
+    }
 
 }

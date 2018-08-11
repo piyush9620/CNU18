@@ -5,12 +5,9 @@ import org.harsh.arya.fooddelivery.models.Item;
 import org.harsh.arya.fooddelivery.models.ItemRepository;
 import org.harsh.arya.fooddelivery.models.Restaurant;
 import org.harsh.arya.fooddelivery.models.RestaurantRepository;
-import org.harsh.arya.fooddelivery.utils.ErrorResponse;
-import org.harsh.arya.fooddelivery.utils.PostResponse;
+import org.harsh.arya.fooddelivery.response.ErrorResponse;
 import org.harsh.arya.fooddelivery.utils.Response;
-import org.harsh.arya.fooddelivery.utils.SuccessResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.harsh.arya.fooddelivery.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +55,7 @@ public class ItemController {
     @PostMapping(value="/{restaurantId}/items")
     public ResponseEntity<Response> createItem(@PathVariable @NotNull Integer restaurantId,@RequestBody Item item){
         Restaurant restaurant = restaurantRepository.getById(restaurantId);
-        if(restaurant !=null && !restaurant.getIsDeleted() && Validators.validateItem(item)){
+        if(restaurant !=null && !restaurant.getIsDeleted() && item.validate()){
             item.setRestaurant(restaurant);
             itemRepository.save(item);
             SuccessResponse response = new SuccessResponse();
@@ -85,7 +82,7 @@ public class ItemController {
         if(restaurant !=null){
             Item itemDb = itemRepository.getById(itemId);
 
-            if (itemDb==null || itemDb.getRestaurant().getId() != restaurantId || !Validators.validateItem(item)){
+            if (itemDb==null || itemDb.getRestaurant().getId() != restaurantId || item.validate()){
                 ErrorResponse response = new ErrorResponse();
                 response.setReason("restaurant key not has found");
                 return new ResponseEntity<Response>(response,HttpStatus.BAD_REQUEST);
