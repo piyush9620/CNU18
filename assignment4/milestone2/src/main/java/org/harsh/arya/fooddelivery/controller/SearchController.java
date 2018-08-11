@@ -33,7 +33,7 @@ public class SearchController {
     public ResponseEntity<Response> searchRestaurant(@RequestParam(value = "name", defaultValue = "") String name,
                                                      @RequestParam(value = "cuisine", defaultValue = "") String cuisine,
                                                      @RequestParam(value = "city", defaultValue = "") String city){
-        List<Restaurant> restaurants = restaurantRepository.getAllByNameContainingAndCuisinesInAndCityContains(name, Arrays.asList(cuisine),city);
+        List<Restaurant> restaurants = restaurantRepository.Search(name,cuisine,city);
         return new ResponseEntity<Response>( new SuccessResponse(restaurants),HttpStatus.OK);
     }
 

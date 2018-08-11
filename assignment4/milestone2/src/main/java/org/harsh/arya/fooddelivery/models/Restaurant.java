@@ -2,6 +2,7 @@ package org.harsh.arya.fooddelivery.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 import static org.harsh.arya.fooddelivery.utils.Validators.checkRange;
 
+@Where(clause = "is_deleted = 0")
 @Data
 @Entity // This tells Hibernate to make a table out of this class
 public class Restaurant {
