@@ -5,7 +5,7 @@ import urllib.request
 import logging
 import urllib.request
 import os
-
+import requests
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
@@ -30,7 +30,15 @@ def read_file():
 
 @log_download
 def download(url):
-    urllib.request.urlretrieve(url, "files/"+url.strip().split("=")[-1]+".jpg")
+    r = requests.get(url)
+    filename = url.strip().split("portraits/")[-1]
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc: # Guard against race condition
+            print(exc)
+    with open(filename, 'wb') as f:  
+        f.write(r.content)
 
 BUCKET_NAME = 'cnu-2k18' # replace with your bucket name
 KEY = 'images.txt' # replace with your object key
