@@ -1,0 +1,62 @@
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'application'
+    id 'net.ltgt.apt' version '0.10'
+    id 'jacoco'
+}
+
+group 'org.harsh.arya'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.jacoco', name: 'jacoco-maven-plugin', version: '0.8.1'
+    testCompile 'org.mockito:mockito-core:2.7.22'
+   // testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: '1.3'
+   // testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+    apt "org.projectlombok:lombok:1.18.2"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.6'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
+    compile files(fileTree(dir: 'lib', includes: ['*.jar']))
+    compile group: 'net.imagej', name: 'ij', version: '1.49k'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+}
+
+
+
+mainClassName = 'org.harsh.arya.easyimage.EasyImage'
+
+jar {
+    baseName = 'harya-easyimage'
+    version =  '0.1.0'
+    manifest {
+        attributes(
+//                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': mainClassName
+        )
+    }
+    from configurations.runtime.collect { zipTree(it) }
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination "${buildDir}/reports/coverage"
+    }
+}
