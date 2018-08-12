@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE")
+        classpath 'com.github.skhatri:gradle-s3-plugin:1.0.4'
+        classpath 'joda-time:joda-time:2.4'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.0.3.RELEASE'
+    id 'io.spring.dependency-management' version "1.0.6.RELEASE"
+}
+
+group 'org.harsh.arya'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+bootJar {
+    baseName = 'harya-fooddelivery'
+    version =  '0.1.0'
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'javax.xml.bind:jaxb-api'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+    // Use MySQL Connector-J
+    compile 'mysql:mysql-connector-java'
+    testCompile 'org.springframework:spring-test'
+    testCompile "org.mockito:mockito-core:1.+"
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    runtime('com.h2database:h2')
+}
