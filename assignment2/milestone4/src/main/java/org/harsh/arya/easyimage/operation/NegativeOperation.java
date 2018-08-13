@@ -15,13 +15,12 @@ public class NegativeOperation extends Operation {
     public void apply(ImageUtils imageUtils,String outPath){
         String filename = FilenameUtils.getName(filePath);
         String fileext = FilenameUtils.getExtension(filename);
-
-        ImageProcessor ip = rotateImage(filePath);
+        ImagePlus imp = IJ.openImage(filePath);
+        ImageProcessor ip = negateImage(imp);
         imageUtils.writeFile(ip.getBufferedImage(),fileext,filename,outPath);
     }
 
-    private ImageProcessor rotateImage(String filePath){
-        ImagePlus imp = IJ.openImage(filePath);
+    public ImageProcessor negateImage(ImagePlus imp){
         ImageProcessor ip = imp.getProcessor();
         ip.invert();
         return ip;

@@ -23,12 +23,13 @@ public class ResizeOperation extends Operation{
     public void apply(ImageUtils imageUtils,String outPath){
         String filename = FilenameUtils.getName(filePath);
         String fileext = FilenameUtils.getExtension(filename);
-        ImageProcessor ip = resizeImage(filePath,height,width);
+        ImagePlus imp = IJ.openImage(filePath);
+        ImageProcessor ip = resizeImage(imp);
         imageUtils.writeFile(ip.getBufferedImage(),fileext,filename,outPath);
     }
 
-    private ImageProcessor resizeImage(String filePath,Integer height,Integer width){
-        ImagePlus imp = IJ.openImage(filePath);
+    public ImageProcessor resizeImage(ImagePlus imp){
+
         ImageProcessor ip = imp.getProcessor();
         Pair<Integer,Integer> newParams = getSizeParams(ip.getHeight(),ip.getWidth(),height,width);
         ip = ip.resize(newParams.getValue(), newParams.getKey());

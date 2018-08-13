@@ -1,7 +1,10 @@
 package org.harsh.arya.easyimage;
 
+import ij.ImagePlus;
+import ij.process.ImageProcessor;
 import org.harsh.arya.easyimage.operation.FlipOperation;
 import org.harsh.arya.easyimage.operation.ResizeOperation;
+import org.harsh.arya.easyimage.operation.RotateOperation;
 import org.harsh.arya.easyimage.utils.ImageUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +25,12 @@ public class FlipOperationTest {
     @Mock
     ImageUtils imageUtils;
 
+
+    @Mock
+    public ImagePlus imagePlus;
+    @Mock
+    public ImageProcessor imageProcessor;
+
     @Test
     public void flipConstructorApplyTest(){
         //imageUtils = Mockito.mock(ImageUtils.class);
@@ -33,4 +42,15 @@ public class FlipOperationTest {
         flipOperation.apply(imageUtils,"");
         verify(imageUtils, times(1)).writeFile(isA(BufferedImage.class),isA(String.class),isA(String.class),isA(String.class));
     }
+
+    @Test
+    public void flipImageTest(){
+        flipOperation=new FlipOperation();
+        Mockito.when(imagePlus.getProcessor()).thenReturn(imageProcessor);
+        flipOperation.flipImage(imagePlus,false);
+        verify(imageProcessor, times(1)).flipHorizontal();
+        flipOperation.flipImage(imagePlus,true);
+        verify(imageProcessor, times(1)).flipVertical();
+    }
+
 }

@@ -23,12 +23,12 @@ public class ScaleOperation extends Operation {
     public void apply(ImageUtils imageUtils,String outPath){
         String filename = FilenameUtils.getName(filePath);
         String fileext = FilenameUtils.getExtension(filename);
-        ImageProcessor ip = scaleImage(filePath,height,width);
+        ImagePlus imp = IJ.openImage(filePath);
+        ImageProcessor ip = scaleImage(imp);
         imageUtils.writeFile(ip.getBufferedImage(),fileext,filename,outPath);
     }
 
-    private ImageProcessor scaleImage(String filePath,Float height,Float width){
-        ImagePlus imp = IJ.openImage(filePath);
+    public ImageProcessor scaleImage(ImagePlus imp){
         ImageProcessor ip = imp.getProcessor();
         if((height !=null || width != null)){
             Pair<Float,Float> newParams = getSizeParams(height,width);
@@ -37,6 +37,7 @@ public class ScaleOperation extends Operation {
             }
             int targetHeight = (int)((float)ip.getHeight() * newParams.getKey().floatValue());
             int targetWidth = (int)((float)ip.getWidth() * newParams.getValue().floatValue());
+            System.out.println(targetHeight+" "+targetWidth);
             ip = ip.resize(targetWidth, targetHeight);
             return ip;
         }
@@ -69,4 +70,6 @@ public class ScaleOperation extends Operation {
         if (this.height == null)
             this.height = this.width;
     }
+
+
 }

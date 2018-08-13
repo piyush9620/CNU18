@@ -1,5 +1,8 @@
 package org.harsh.arya.easyimage;
 
+import ij.ImagePlus;
+import ij.process.ImageProcessor;
+import org.harsh.arya.easyimage.operation.ResizeOperation;
 import org.harsh.arya.easyimage.operation.RotateOperation;
 import org.harsh.arya.easyimage.utils.ImageUtils;
 import org.junit.Test;
@@ -10,13 +13,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.awt.image.BufferedImage;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.any;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class RotateOperationTest {
@@ -24,6 +24,11 @@ public class RotateOperationTest {
 
     @Mock
     ImageUtils imageUtils;
+
+    @Mock
+    public ImagePlus imagePlus;
+    @Mock
+    public ImageProcessor imageProcessor;
 
     @Test
     public void rotateConstructorTest(){
@@ -40,7 +45,6 @@ public class RotateOperationTest {
         rotateOperation.setDegree(-10);
         Integer degree = rotateOperation.getDegree();
         assertEquals(degree,350,0);
-
     }
 
     @Test
@@ -56,6 +60,17 @@ public class RotateOperationTest {
 
     }
 
+    @Test
+    public void rotateImageTest(){
+        rotateOperation=new RotateOperation();
+        Mockito.when(imagePlus.getProcessor()).thenReturn(imageProcessor);
+        rotateOperation.setDegree(60);
+        rotateOperation.rotateImage(imagePlus);
+        verify(imageProcessor, times(1)).rotate(60);
+        rotateOperation.setDegree(-10);
+        rotateOperation.rotateImage(imagePlus);
+        verify(imageProcessor, times(1)).rotate(350);
+    }
 
 
 }

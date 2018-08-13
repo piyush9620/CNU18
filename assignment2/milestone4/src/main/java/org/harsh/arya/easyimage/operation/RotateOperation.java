@@ -20,13 +20,13 @@ public class RotateOperation extends Operation{
     public void apply(ImageUtils imageUtils,String outPath){
         String filename = FilenameUtils.getName(filePath);
         String fileext = FilenameUtils.getExtension(filename);
-
-        ImageProcessor ip = rotateImage(filePath,degree);
+        ImagePlus imp = IJ.openImage(filePath);
+        ImageProcessor ip = rotateImage(imp);
         imageUtils.writeFile(ip.getBufferedImage(),fileext,filename,outPath);
     }
 
-    private ImageProcessor rotateImage(String filePath, Integer degree){
-        ImagePlus imp = IJ.openImage(filePath);
+    public ImageProcessor rotateImage(ImagePlus imp){
+
         ImageProcessor ip = imp.getProcessor();
         log.info(ip.getHeight()+"x"+ip.getWidth());
         if(degree!=null){

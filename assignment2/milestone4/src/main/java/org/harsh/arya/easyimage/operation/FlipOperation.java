@@ -24,12 +24,13 @@ public class FlipOperation extends Operation{
         if (orientation.equals("horizontal") ){
             isVertical = false;
         }
-        ImageProcessor ip = flipImage(filePath,isVertical);
+        ImagePlus imp = IJ.openImage(filePath);
+        ImageProcessor ip = flipImage(imp,isVertical);
         imageUtils.writeFile(ip.getBufferedImage(),fileext,filename,outPath);
     }
 
-    private ImageProcessor flipImage(String filePath, boolean isVertical){
-        ImagePlus imp = IJ.openImage(filePath);
+    public ImageProcessor flipImage(ImagePlus imp, boolean isVertical){
+
         ImageProcessor ip = imp.getProcessor();
         if (isVertical){
             ip.flipVertical();

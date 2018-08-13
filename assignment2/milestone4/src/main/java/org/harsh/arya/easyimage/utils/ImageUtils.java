@@ -19,8 +19,5 @@ public class ImageUtils {
         }
     }
 
-    public int returnID(){
-        return 23;
-    }
 
 }
