@@ -5,14 +5,8 @@ class MetaClass(type):
     mockObjects = {}
     primaryIndex = 1
     
-    def __init__(self,*args,**kwargs):
-        for arg in kwargs:
-            attr = object.__getattribute__(self, arg)
-            getattr(self,arg).set_value(kwargs[arg])
         
-    def save(self):
-        self.__class__.mockObjects[self.__class__.primaryIndex] = self.get_clone()
-        self.__class__.primaryIndex+=1
+    
     @classmethod
     def all(cls):
         return list(cls.mockObjects.values());
@@ -20,9 +14,7 @@ class MetaClass(type):
     def get(cls,id):
         return cls.mockObjects[id]
 
-    def get_clone(self):
-        cloned_obj = self.__class__(**self.kw)
-        return cloned_obj
+    
     
     @staticmethod
     def get_op_function(self,splits,op):
@@ -79,4 +71,11 @@ class ModelBase(metaclass = MetaClass):
         for arg in kwargs:
             attr = object.__getattribute__(self, arg)
             getattr(self,arg).set_value(kwargs[arg])
-    
+
+    def save(self):
+        self.__class__.mockObjects[self.__class__.primaryIndex] = self.get_clone()
+        self.__class__.primaryIndex+=1
+
+    def get_clone(self):
+        cloned_obj = self.__class__(**self.kw)
+        return cloned_obj    
