@@ -1,4 +1,6 @@
 from fields import Fields
+import copy
+
 class ModelBase(object):
     mockObjects = {}
     primaryIndex = 1
@@ -9,7 +11,7 @@ class ModelBase(object):
             getattr(self,arg).set_value(kwargs[arg])
         
     def save(self):
-        self.__class__.mockObjects[ModelBase.primaryIndex] = self
+        self.__class__.mockObjects[self.__class__.primaryIndex] = self.get_clone()
         self.__class__.primaryIndex+=1
     @classmethod
     def all(cls):
@@ -17,6 +19,10 @@ class ModelBase(object):
     @classmethod
     def get(cls,id):
         return cls.mockObjects[id]
+
+    def get_clone(self):
+        cloned_obj = self.__class__(**self.kw)
+        return cloned_obj
     
     @staticmethod
     def get_op_function(self,splits,op):
