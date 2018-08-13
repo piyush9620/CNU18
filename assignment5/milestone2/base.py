@@ -1,7 +1,7 @@
 from fields import Fields
 import copy
 
-class ModelBase(object):
+class MetaClass(type):
     mockObjects = {}
     primaryIndex = 1
     
@@ -72,5 +72,11 @@ class ModelBase(object):
         if name.startswith("findBy"):
             return self.get_function(self,name)
         else:
-            return None        
+            return None  
+
+class ModelBase(metaclass = MetaClass):
+    def __init__(self,*args,**kwargs):
+        for arg in kwargs:
+            attr = object.__getattribute__(self, arg)
+            getattr(self,arg).set_value(kwargs[arg])
     
