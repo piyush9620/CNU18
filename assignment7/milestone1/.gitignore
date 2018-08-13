@@ -1,0 +1,7 @@
+.idea/*
+venv/*
+foodservice/migrations/*
+db.sqlite3
+fooddelivery/__pycache__/*
+foodservice/__pycache__/*
+
