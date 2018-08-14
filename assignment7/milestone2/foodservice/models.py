@@ -51,6 +51,9 @@ class Restaurant(models.Model):
 
     def delete(self, using=None, keep_parents=False):
         self.is_deleted = True
+        for category in self.categories.all():
+            category.businesses_count -= 1
+            category.save()
         self.save()
 
     def __str__(self):
@@ -62,35 +65,24 @@ class Review(models.Model):
     pub_date = models.DateTimeField('date published', auto_now=True)
     stars = models.PositiveIntegerField(default=0)
     feedback = models.CharField(max_length=500,default="")
-    restaurant = models.ForeignKey('Restaurant',on_delete=models.CASCADE)
+    restaurant = models.ForeignKey('Restaurant',on_delete=models.SET_NULL,null=True)
 
 @receiver(post_save, sender=Review)
 def stars_handler(sender, instance, **kwargs):
     restaurant = instance.restaurant
-    restaurant.review_count = restaurant._review_count()
-    #restaurant.stars = (restaurant.stars * restaurant.review_count + (instance.stars - restaurant.stars)) / restaurant.review_count
-    restaurant.stars = restaurant._stars();
-    print(restaurant.stars)
-    restaurant.save()
-
-@receiver(pre_delete, sender=Review)
-def stars_handler_delete(sender, instance, **kwargs):
-    restaurant = instance.restaurant
-    restaurant.review_count = restaurant._review_count()
-    # restaurant.stars = (restaurant.stars * restaurant.review_count + (instance.stars - restaurant.stars)) / restaurant.review_count
-    restaurant.stars = restaurant._stars();
+    restaurant.review_count += 1
+    restaurant.stars = (restaurant.stars * restaurant.review_count + (instance.stars - restaurant.stars)) / restaurant.review_count
     restaurant.save()
 
 @receiver(m2m_changed, sender=Restaurant.categories.through)
 def categories_handler(sender, instance, **kwargs):
+    if kwargs['action'] == 'pre_remove':
+        diff = -1
+    elif kwargs['action'] == 'post_add':
+        diff = 1
+    else:
+        diff = 0
     categories = instance.categories.all()
     for category in categories:
-        category.businesses_count = category._businesses_count()
-        category.save()
-
-@receiver(post_delete, sender=Restaurant)
-def categories_handler_delete(sender, instance, **kwargs):
-    categories = instance.categories.all()
-    for category in categories:
-        category.businesses_count = category._businesses_count()
+        category.businesses_count += diff
         category.save()
