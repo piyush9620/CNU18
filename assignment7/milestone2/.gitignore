@@ -1,0 +1,5 @@
+db.sqlite3
+foodservice/migrations/*
+secrets.yaml
+foodservice/__pycache__/*
+fooddelivery/__pycache__/*
