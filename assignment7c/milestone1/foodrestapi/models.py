@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator,MaxValueValidator
+
 # Create your models here.
 
 
@@ -23,10 +24,12 @@ class Restaurant(models.Model):
     city = models.CharField(max_length=200)
     latitude = models.FloatField(validators=[MinValueValidator(-90),MaxValueValidator(90)])
     longitude = models.FloatField(validators=[MinValueValidator(-180),MaxValueValidator(180)])
-    rating = models.FloatField(validators=[MinValueValidator(0),MaxValueValidator(10)])
+    rating = models.FloatField(validators=[MinValueValidator(0)])
     is_open = models.BooleanField()
     cuisines = models.ManyToManyField(Cuisines, related_name='restaurants')
     is_deleted = models.BooleanField(default=False)
+
+
     def __str__(self):
         return self.name
 

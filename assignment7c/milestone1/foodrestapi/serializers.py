@@ -25,6 +25,13 @@ class RestaurantSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'city', 'latitude', 'longitude', 'rating','is_open','cuisines')
 
 class ItemSerialiser(serializers.ModelSerializer):
+    restaurant = RestaurantSerializer(read_only=True)
+    restaurant_id = serializers.PrimaryKeyRelatedField(
+        queryset=Restaurant.objects.all(),
+        source='restaurant',
+        write_only=True
+    )
+
     class Meta:
         model = Item
-        fields = ('id', 'name','price')
+        fields = ('id', 'name','price','restaurant_id','restaurant')
