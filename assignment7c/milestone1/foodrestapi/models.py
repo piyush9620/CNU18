@@ -21,10 +21,10 @@ class Restaurant(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
-    latitude = models.FloatField(default=0.0,validators=[MinValueValidator(-90),MaxValueValidator(90)])
-    longitude = models.FloatField(default=0.0,validators=[MinValueValidator(-180),MaxValueValidator(180)])
-    rating = models.FloatField(default=0.0,validators=[MinValueValidator(0),MaxValueValidator(10)])
-    is_open = models.BooleanField(default=True)
+    latitude = models.FloatField(validators=[MinValueValidator(-90),MaxValueValidator(90)])
+    longitude = models.FloatField(validators=[MinValueValidator(-180),MaxValueValidator(180)])
+    rating = models.FloatField(validators=[MinValueValidator(0),MaxValueValidator(10)])
+    is_open = models.BooleanField()
     cuisines = models.ManyToManyField(Cuisines, related_name='restaurants')
     is_deleted = models.BooleanField(default=False)
     def __str__(self):
@@ -39,7 +39,7 @@ class Restaurant(models.Model):
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    price = models.PositiveIntegerField(default=1)
+    price = models.PositiveIntegerField()
     restaurant = models.ForeignKey(Restaurant,on_delete=models.SET_NULL,null=True)
 
     def __str__(self):
