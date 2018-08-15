@@ -1,0 +1,8 @@
+FROM python:3.6
+RUN apt-get update && apt-get -y install mysql-client
+COPY . /root
+WORKDIR /root
+RUN pip install -r requirements.txt
+CMD ["sh","/root/celeryRun.sh"]
+
+

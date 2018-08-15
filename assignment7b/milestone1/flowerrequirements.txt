@@ -1,0 +1,11 @@
+PyYAML
+mysqlclient
+django
+awscli
+celery
+celery[redis]
+django-celery-results
+requests
+boto3
+redis
+flower

@@ -1,0 +1,7 @@
+FROM python:3.6
+RUN apt-get update && apt-get -y install mysql-client
+COPY . /root
+WORKDIR /root
+EXPOSE 5555
+RUN pip install -r flowerrequirements.txt
+CMD ["sh","/root/flowerRun.sh"]
