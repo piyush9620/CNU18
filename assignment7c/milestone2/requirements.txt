@@ -1,0 +1,6 @@
+django
+django-filter
+djangorestframework
+django-rest-swagger
+markupsafe
+requests

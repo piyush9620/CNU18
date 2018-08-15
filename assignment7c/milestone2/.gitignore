@@ -1,0 +1,6 @@
+db.sqlite3
+foodrestapi/migrations/*
+secrets.yaml
+foodrest/__pycache__/*
+static/*
+foodrestapi/__pycache__/*
